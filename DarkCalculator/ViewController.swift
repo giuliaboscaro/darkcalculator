@@ -12,22 +12,30 @@ class ViewController: UIViewController {
     
     private var finishedTypingNumber: Bool = true
     
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else {
+                fatalError("Cannot convert display label text to a Double")
+            }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
+    
     @IBOutlet weak var displayLabel: UILabel!
     
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         finishedTypingNumber = true
         
-        guard let number = Double(displayLabel.text!) else {
-            fatalError("Cannot convert display label text to a Double")
-        }
-        
         if let calcMethod = sender.currentTitle {
             if calcMethod == "+/-" {
-                displayLabel.text = String(number * -1)
+                displayValue *= -1
             } else if calcMethod == "AC" {
-                displayLabel.text = "0"
+                displayValue = 0
             } else if calcMethod == "%" {
-                displayLabel.text = String(number * 0.01)
+                displayValue *= 0.01
             }
         }
         
@@ -41,11 +49,7 @@ class ViewController: UIViewController {
             } else {
                 if numberValue == "." {
                     
-                    guard let currentDisplayValue = Double(displayLabel.text!) else {
-                        fatalError("Cannot convert display label text to a Double")
-                    }
-                    
-                    let isInt = floor(currentDisplayValue) == currentDisplayValue
+                    let isInt = floor(displayValue) == displayValue
                     
                     if !isInt {
                         return
@@ -57,13 +61,8 @@ class ViewController: UIViewController {
         }
     }
     
-    func resetLabel() {
-        displayLabel.text = "0"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        resetLabel()
     }
 
 
