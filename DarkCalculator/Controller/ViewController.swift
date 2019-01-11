@@ -20,7 +20,11 @@ class ViewController: UIViewController {
             return number
         }
         set {
-            displayLabel.text = String(newValue)
+            if floor(newValue) == newValue {
+                displayLabel.text = String(format: "%.0f", newValue)
+            } else {
+                displayLabel.text = String(newValue)
+            }
         }
     }
     
