@@ -15,16 +15,26 @@ class ViewController: UIViewController {
     private var displayValue: Double {
         get {
             guard let number = Double(displayLabel.text!) else {
-                fatalError("Cannot convert display label text to a Double")
+                if displayLabel.text! == "Error" {
+                    return 0
+                } else {
+                    fatalError("Cannot convert display label text to a Double")
+                }
             }
             return number
         }
         set {
-            if floor(newValue) == newValue {
-                displayLabel.text = String(format: "%.0f", newValue)
+            
+            if newValue.isInfinite{
+                displayLabel.text = "Error"
             } else {
-                displayLabel.text = String(newValue)
+                if floor(newValue) == newValue {
+                    displayLabel.text = String(format: "%.0f", newValue)
+                } else {
+                    displayLabel.text = String(newValue)
+                }
             }
+            
         }
     }
     
